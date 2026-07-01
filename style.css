@@ -1628,3 +1628,88 @@ a:hover {
     transform: translateY(-1px);
 }
 
+/* Pre-installed Software Badge styling */
+.catalog-software {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-top: 1px dashed var(--border-light);
+    padding-top: 0.85rem;
+}
+
+.catalog-software strong {
+    color: var(--accent);
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+}
+
+.catalog-software span {
+    display: inline-block;
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-right: 0.4rem;
+    margin-bottom: 0.3rem;
+    border: 1px solid var(--border-light);
+    transition: var(--transition-fast);
+}
+
+#card-q3 .catalog-software span {
+    background-color: var(--primary-glow);
+    color: var(--primary);
+    border-color: var(--border-accent);
+}
+
+#card-q3 .catalog-software span:hover {
+    background-color: rgba(0, 150, 57, 0.25);
+}
+
+#card-q2 .catalog-software span {
+    background-color: rgba(2, 132, 199, 0.08);
+    color: #0284c7;
+    border-color: rgba(2, 132, 199, 0.25);
+}
+
+#card-q2 .catalog-software span:hover {
+    background-color: rgba(2, 132, 199, 0.15);
+}
+
+/* Same Day Alert warning box */
+.same-day-alert {
+    background-color: rgba(2, 132, 199, 0.04);
+    border: 1px solid rgba(2, 132, 199, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+    line-height: 1.4;
+}
+
+.same-day-alert i {
+    color: #0284c7;
+    margin-top: 2px;
+    font-size: 0.85rem;
+}
+
+.same-day-alert a {
+    font-weight: 700;
+    text-decoration: underline;
+    color: var(--primary);
+}
+
+.same-day-alert a:hover {
+    color: var(--primary-dark);
+}
+
+
+

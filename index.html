@@ -129,8 +129,8 @@
                         <li>
                             <span class="step-num">3</span>
                             <div class="step-content">
-                                <strong>Max 3-Day Return</strong>
-                                <p>Headsets must be returned or extended within 3 working days to ensure all students get access.</p>
+                                <strong>Same-Day Return</strong>
+                                <p>Headsets must be returned the same day by 17:00. Schedule a lab appointment to request multi-day extensions.</p>
                             </div>
                         </li>
                     </ul>
@@ -197,6 +197,12 @@
                                 <span><i class="fa-solid fa-eye"></i> Full Color MR</span>
                                 <span><i class="fa-solid fa-bolt"></i> Standalone & Link</span>
                             </div>
+                            <div class="catalog-software">
+                                <strong>Pre-installed Software:</strong>
+                                <span>Twinmotion Presenter</span>
+                                <span>Arkio (MR)</span>
+                                <span>Gravity Sketch</span>
+                            </div>
                         </div>
                     </div>
 
@@ -224,6 +230,11 @@
                                 <span><i class="fa-solid fa-display"></i> High-Res Display</span>
                                 <span><i class="fa-solid fa-eye-slash"></i> Standard Passthrough</span>
                                 <span><i class="fa-solid fa-weight-hanging"></i> Lightweight</span>
+                            </div>
+                            <div class="catalog-software">
+                                <strong>Pre-installed Software:</strong>
+                                <span>VR Sketch</span>
+                                <span>Vectorworks Odyssey</span>
                             </div>
                         </div>
                     </div>
@@ -268,13 +279,18 @@
                             <div class="form-group">
                                 <label for="end-date">Return Date</label>
                                 <input type="date" id="end-date" required disabled>
-                                <span class="date-hint"><i class="fa-solid fa-circle-info"></i> Max 3 working days</span>
+                                <span class="date-hint"><i class="fa-solid fa-circle-info"></i> Same-day return required (by 17:00)</span>
                             </div>
+                        </div>
+
+                        <div class="same-day-alert">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>Standard loans are <strong>same-day only</strong>. Need it longer? Please <a href="#booking" onclick="switchView('booking-view')">book a technical support appointment</a> to request approval.</span>
                         </div>
 
                         <div class="form-checkbox">
                             <input type="checkbox" id="agree-terms" required disabled>
-                            <label for="agree-terms">I agree to return the hardware complete, clean, and within the 3-day leentermijn to the Deventer library desk.</label>
+                            <label for="agree-terms">I agree to return the hardware complete, clean, and on the same day (by 17:00) to the Deventer library desk.</label>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block" id="lending-submit-btn" disabled>

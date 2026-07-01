@@ -252,18 +252,12 @@ function setupLendingDateInputs() {
     // Set default pickup date to today
     startDateInput.value = todayStr;
     
-    // Set default return date to 3 days later
-    const defaultReturn = addWorkingDays(today, 3);
-    endDateInput.value = formatDateISO(defaultReturn);
-    endDateInput.min = todayStr;
+    // Return date is locked to pickup date for same-day rentals
+    endDateInput.value = todayStr;
+    endDateInput.disabled = true; // Locks it visually and logically
     
-    // Limit end date to max 3 working days from selected start date
     startDateInput.addEventListener('change', () => {
-        const chosenStart = new Date(startDateInput.value);
-        endDateInput.min = formatDateISO(chosenStart);
-        
-        const maxReturn = addWorkingDays(chosenStart, 3);
-        endDateInput.value = formatDateISO(maxReturn);
+        endDateInput.value = startDateInput.value;
     });
 }
 
@@ -284,15 +278,8 @@ function submitLendingForm(event) {
     const start = new Date(startStr);
     const end = new Date(endStr);
     
-    if (end < start) {
-        showToast("Invalid Dates", "Return date cannot be before pickup date.", "warning");
-        return;
-    }
-    
-    // Validate maximum 3 working days loan
-    const dayDiff = getWorkingDaysDiff(start, end);
-    if (dayDiff > 3) {
-        showToast("Date Constraint", "The maximum borrowing limit is 3 working days. Please select an earlier return date.", "warning");
+    if (startStr !== endStr) {
+        showToast("Same-Day Policy", "Standard lending checkout is restricted to same-day rentals. To request a multi-day loan, please book a VR technical support appointment.", "warning");
         return;
     }
 
