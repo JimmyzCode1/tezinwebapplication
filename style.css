@@ -1592,3 +1592,39 @@ a:hover {
 .catalog-card:hover .headset-img {
     transform: translateY(-5px) scale(1.05);
 }
+
+/* Saxion Logo Icon styling */
+.logo-icon-svg {
+    transition: var(--transition-fast);
+}
+
+.nav-logo:hover .logo-icon-svg {
+    transform: rotate(-5deg) scale(1.05);
+}
+
+/* Mijn.Saxion button link in Navbar */
+.nav-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--primary);
+    color: var(--primary) !important;
+    background-color: transparent;
+    transition: var(--transition-fast);
+}
+
+.nav-link-btn i {
+    font-size: 0.85rem;
+}
+
+.nav-link-btn:hover {
+    background-color: var(--primary);
+    color: var(--text-white) !important;
+    box-shadow: 0 4px 10px var(--primary-glow-heavy);
+    transform: translateY(-1px);
+}
+

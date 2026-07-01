@@ -20,7 +20,13 @@
     <nav class="navbar" id="main-nav">
         <div class="nav-container">
             <a href="#" class="nav-logo" id="nav-logo-link">
-                <span class="logo-box">S</span>
+                <!-- Inline SVG representing official Saxion Logo Icon -->
+                <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true" style="width: 36px; height: 36px; display: block; filter: drop-shadow(0 2px 6px rgba(0, 150, 57, 0.35));">
+                    <rect x="5" y="5" width="90" height="90" rx="24" fill="#009639" />
+                    <path d="M 30 75 Q 40 40 70 25 C 60 60 30 75 30 75 Z" fill="#ffffff" />
+                    <circle cx="70" cy="25" r="9" fill="#ffffff" />
+                    <circle cx="30" cy="75" r="9" fill="#ffffff" />
+                </svg>
                 <span class="logo-text">Saxion <span class="logo-subtext">Deventer</span></span>
             </a>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation Menu">
@@ -46,6 +52,11 @@
                     <a href="#my-bookings" class="nav-link" data-target="my-bookings-view" id="nav-my-bookings">
                         <i class="fa-solid fa-clock-rotate-left"></i> My Portal 
                         <span class="badge" id="bookings-count-badge" style="display: none;">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://mijn.saxion.nl" target="_blank" class="nav-link-btn" id="nav-mijn-saxion">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mijn.Saxion
                     </a>
                 </li>
             </ul>
@@ -439,10 +450,10 @@
             <div class="contact-support-card glass-panel">
                 <div class="support-info">
                     <h4><i class="fa-solid fa-headset"></i> Support & Contact</h4>
-                    <p>Have questions about your rental, late fines, or need to extend your lease? Contact the Deventer library team or visit the desk.</p>
+                    <p>Have questions about your VR rental, technical setup, or need help? Contact the Deventer VR Lab team.</p>
                 </div>
                 <div class="support-actions">
-                    <a href="mailto:library.deventer@saxion.nl" class="btn btn-outline"><i class="fa-regular fa-envelope"></i> Email Library</a>
+                    <a href="mailto:labid.hbs@saxion.nl" class="btn btn-outline"><i class="fa-regular fa-envelope"></i> Email Lab Support</a>
                     <a href="https://teams.microsoft.com" target="_blank" class="btn btn-outline"><i class="fa-brands fa-microsoft"></i> Chat on Teams</a>
                 </div>
             </div>
