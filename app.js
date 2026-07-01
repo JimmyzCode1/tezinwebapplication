@@ -212,7 +212,7 @@ function selectHeadset(id) {
     const cardQ3 = document.getElementById('card-q3');
     const cardQ2 = document.getElementById('card-q2');
     const form = document.getElementById('lending-form');
-    const inputs = form.querySelectorAll('input, button');
+    const inputs = form.querySelectorAll('input, select, button');
     const subtitle = document.querySelector('#lending-booking-panel .panel-subtitle');
     
     // Clear selections
@@ -579,7 +579,7 @@ function enableAppointmentForm() {
     const formStep = document.getElementById('wizard-form-step');
     formStep.classList.remove('disabled-step');
     
-    const inputs = formStep.querySelectorAll('input, textarea, button');
+    const inputs = formStep.querySelectorAll('input, select, textarea, button');
     inputs.forEach(input => input.disabled = false);
 }
 
