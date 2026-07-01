@@ -234,6 +234,38 @@ function selectHeadset(id) {
     document.getElementById(`card-${id}`).classList.add('selected');
     document.getElementById('selected-headset-id').value = id;
     
+    // Populate software profile options dynamically
+    const purposeSelect = document.getElementById('lending-purpose');
+    purposeSelect.innerHTML = '';
+    
+    if (id === 'q3') {
+        const optionsQ3 = [
+            { val: "twinmotion", text: "Twinmotion Presenter (Walkthroughs)" },
+            { val: "arkio", text: "Arkio MR (Mixed Reality Space Planning)" },
+            { val: "gravity_sketch", text: "Gravity Sketch (3D Spatial Modeling)" },
+            { val: "general", text: "General Developer Profile / Unity" }
+        ];
+        optionsQ3.forEach(opt => {
+            const el = document.createElement('option');
+            el.value = opt.val;
+            el.textContent = opt.text;
+            purposeSelect.appendChild(el);
+        });
+    } else if (id === 'q2') {
+        const optionsQ2 = [
+            { val: "dementia", text: "Care & Dementia Simulation VR Experience" },
+            { val: "vectorworks_furniture", text: "Vectorworks Furniture VR Review (VR Sketch)" },
+            { val: "interior_walkthrough", text: "Interior Design Space Walkthrough" },
+            { val: "general", text: "General Developer Profile / Unity" }
+        ];
+        optionsQ2.forEach(opt => {
+            const el = document.createElement('option');
+            el.value = opt.val;
+            el.textContent = opt.text;
+            purposeSelect.appendChild(el);
+        });
+    }
+
     // Enable form
     form.classList.remove('disabled-form');
     inputs.forEach(input => input.disabled = false);
@@ -271,6 +303,8 @@ function submitLendingForm(event) {
     const name = document.getElementById('borrower-name').value;
     const studentNum = document.getElementById('student-number').value;
     const studentEmail = document.getElementById('student-email').value;
+    const purposeSelect = document.getElementById('lending-purpose');
+    const purposeText = purposeSelect.options[purposeSelect.selectedIndex] ? purposeSelect.options[purposeSelect.selectedIndex].text : 'General';
     const startStr = document.getElementById('start-date').value;
     const endStr = document.getElementById('end-date').value;
     
@@ -317,6 +351,7 @@ function submitLendingForm(event) {
         borrowerName: name,
         studentNumber: studentNum || 'Staff ID',
         studentEmail: studentEmail,
+        softwareProfile: purposeText,
         startDate: formatDateFriendly(start),
         endDate: formatDateFriendly(end),
         endRaw: endStr,
@@ -339,10 +374,11 @@ Student/Staff ID: ${studentNum || 'N/A'}
 Email: ${studentEmail}
 
 Requested Headset: ${loanRecord.headsetName}
+Software/Usage Profile: ${loanRecord.softwareProfile}
 Pickup Date: ${loanRecord.startDate}
 Return Date: ${loanRecord.endDate}
 
-I have read and agree to return the hardware complete, clean, and within the 3-day term.
+I have read and agree to return the hardware complete, clean, and on the same day (by 17:00).
 
 Kind regards,
 ${name}`;
@@ -726,6 +762,7 @@ function renderMyPortal() {
                         <h4>${loan.headsetName}</h4>
                         <p><i class="fa-regular fa-calendar"></i> Pickup: ${loan.startDate} &bull; Return: ${loan.endDate}</p>
                         <p style="font-size:0.78rem;"><i class="fa-regular fa-user"></i> Student: ${loan.borrowerName} (${loan.studentNumber})</p>
+                        <p style="font-size:0.78rem;"><i class="fa-solid fa-microchip"></i> Profile: <strong>${loan.softwareProfile || 'General'}</strong></p>
                         <span class="item-status ${isOverdue ? 'status-pending' : 'status-active'}">
                             <i class="fa-solid ${isOverdue ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i> 
                             ${isOverdue ? 'Overdue - Return immediately' : loan.status}
