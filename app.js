@@ -317,6 +317,27 @@ function submitLendingForm(event) {
     state.loans.push(loanRecord);
     saveState();
     renderMyPortal();
+
+    // Construct Mailto Email to labid.hbs@saxion.nl
+    const subject = `VR Headset Reservation - ${loanRecord.headsetName} - ${studentNum}`;
+    const emailBody = `Dear VR Lab Team,
+
+I would like to reserve a VR headset. Here are my details:
+
+Name: ${name}
+Student Number: ${studentNum}
+Student Email: ${studentEmail}
+
+Requested Headset: ${loanRecord.headsetName}
+Pickup Date: ${loanRecord.startDate}
+Return Date: ${loanRecord.endDate}
+
+I have read and agree to return the hardware complete, clean, and within the 3-day term.
+
+Kind regards,
+${name}`;
+
+    const mailtoUrl = `mailto:labid.hbs@saxion.nl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
     
     // Reset selections and forms
     document.getElementById(`card-${id}`).classList.remove('selected');
@@ -332,9 +353,14 @@ function submitLendingForm(event) {
     // Display Success Toast
     showToast(
         "Reservation Created!", 
-        `Your Meta Quest reservation is confirmed. Show your student card at the Deventer Library Desk to pick it up on ${loanRecord.startDate}.`, 
+        `Your Meta Quest reservation is saved. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
         "success"
     );
+
+    // Open email client after a brief delay so they see the toast
+    setTimeout(() => {
+        window.location.href = mailtoUrl;
+    }, 1200);
 }
 
 // --- APPOINTMENT BOOKING PROCESS & CALENDAR GENERATOR ---
@@ -570,6 +596,29 @@ function submitAppointmentForm(event) {
     state.appointments.push(newAppt);
     saveState();
     renderMyPortal();
+
+    // Construct Mailto Email to labid.hbs@saxion.nl
+    const subject = `VR Lab Appointment - ${newAppt.typeName} - ${studentNum}`;
+    const emailBody = `Dear VR Lab Team,
+
+I would like to book a VR Lab session. Here are my details:
+
+Name: ${name}
+Student Number: ${studentNum}
+Student Email: ${studentEmail}
+
+Appointment Type: ${newAppt.typeName}
+Date: ${newAppt.date}
+Time Slot: ${newAppt.time}
+Location: ${newAppt.location}
+
+Additional Notes/Questions:
+${notes || 'None'}
+
+Kind regards,
+${name}`;
+
+    const mailtoUrl = `mailto:labid.hbs@saxion.nl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
     
     // Clear and reset wizard
     document.getElementById('appointment-form').reset();
@@ -595,9 +644,14 @@ function submitAppointmentForm(event) {
     // Show success toast
     showToast(
         "Appointment Booked!", 
-        `Your ${newAppt.typeName} is scheduled on ${newAppt.date} at ${newAppt.time}. A MS Teams invitation has been sent to ${newAppt.studentEmail}.`, 
+        `Your reservation is saved. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
         "success"
     );
+
+    // Open email client after a brief delay
+    setTimeout(() => {
+        window.location.href = mailtoUrl;
+    }, 1200);
 }
 
 // --- PORTAL DATA MANAGER & LOCAL STORAGE RENDERER ---
