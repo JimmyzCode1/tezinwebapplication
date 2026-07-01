@@ -51,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Set up calendar
     initCalendar();
+
+    // Set up role selectors for forms
+    initRoleSelectors();
 });
 
 // --- LOCAL STORAGE STATE MANAGEMENT ---
@@ -270,6 +273,7 @@ function submitLendingForm(event) {
     if (!state.selectedHeadset) return;
     
     const id = state.selectedHeadset;
+    const role = document.getElementById('borrower-role').value;
     const name = document.getElementById('borrower-name').value;
     const studentNum = document.getElementById('student-number').value;
     const studentEmail = document.getElementById('student-email').value;
@@ -291,6 +295,24 @@ function submitLendingForm(event) {
         showToast("Date Constraint", "The maximum borrowing limit is 3 working days. Please select an earlier return date.", "warning");
         return;
     }
+
+    // Role-based validation
+    if (role === 'student') {
+        const studentNumPattern = /^[0-9]{6,7}$/;
+        if (!studentNumPattern.test(studentNum)) {
+            showToast("Invalid ID", "Please enter a valid 6 or 7-digit student number.", "warning");
+            return;
+        }
+        if (!studentEmail.endsWith('@student.saxion.nl')) {
+            showToast("Invalid Email", "Please use your official Saxion student email (@student.saxion.nl).", "warning");
+            return;
+        }
+    } else if (role === 'staff') {
+        if (!studentEmail.endsWith('@saxion.nl')) {
+            showToast("Invalid Email", "Please use your official Saxion staff email (@saxion.nl).", "warning");
+            return;
+        }
+    }
     
     // Deduct stock
     if (state.inventory[id].available > 0) {
@@ -306,7 +328,7 @@ function submitLendingForm(event) {
         headsetId: id,
         headsetName: state.inventory[id].name,
         borrowerName: name,
-        studentNumber: studentNum,
+        studentNumber: studentNum || 'Staff ID',
         studentEmail: studentEmail,
         startDate: formatDateFriendly(start),
         endDate: formatDateFriendly(end),
@@ -319,14 +341,15 @@ function submitLendingForm(event) {
     renderMyPortal();
 
     // Construct Mailto Email to labid.hbs@saxion.nl
-    const subject = `VR Headset Reservation - ${loanRecord.headsetName} - ${studentNum}`;
+    const subject = `VR Headset Reservation - ${loanRecord.headsetName} - ${role.toUpperCase()}`;
     const emailBody = `Dear VR Lab Team,
 
 I would like to reserve a VR headset. Here are my details:
 
+Role: ${role === 'student' ? 'Student' : 'Staff Member'}
 Name: ${name}
-Student Number: ${studentNum}
-Student Email: ${studentEmail}
+Student/Staff ID: ${studentNum || 'N/A'}
+Email: ${studentEmail}
 
 Requested Headset: ${loanRecord.headsetName}
 Pickup Date: ${loanRecord.startDate}
@@ -343,17 +366,18 @@ ${name}`;
     document.getElementById(`card-${id}`).classList.remove('selected');
     state.selectedHeadset = null;
     document.getElementById('lending-form').reset();
+    updateLendingRoleUI(); // Reset visual labels to Student default
     document.getElementById('lending-form').classList.add('disabled-form');
     document.getElementById('lending-booking-panel').querySelector('.panel-subtitle').textContent = "Select a headset first to configure rental details";
-    const inputs = document.getElementById('lending-form').querySelectorAll('input, button');
+    const inputs = document.getElementById('lending-form').querySelectorAll('input, select, button');
     inputs.forEach(input => input.disabled = true);
     
     setupLendingDateInputs(); // Reset date boundaries
     
     // Display Success Toast
     showToast(
-        "Reservation Created!", 
-        `Your Meta Quest reservation is saved. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
+        "Reservation Saved!", 
+        `Your Quest reservation has been logged. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
         "success"
     );
 
@@ -567,6 +591,7 @@ function submitAppointmentForm(event) {
         return;
     }
     
+    const role = document.getElementById('appt-role').value;
     const name = document.getElementById('appt-name').value;
     const studentNum = document.getElementById('appt-student-number').value;
     const studentEmail = document.getElementById('appt-email').value;
@@ -578,13 +603,37 @@ function submitAppointmentForm(event) {
         review: "Interior Design VR Review",
         space: "VR Lab Studio Space"
     };
+
+    // Role-based validation
+    if (role === 'student') {
+        const studentNumPattern = /^[0-9]{6,7}$/;
+        if (!studentNumPattern.test(studentNum)) {
+            showToast("Invalid ID", "Please enter a valid 6 or 7-digit student number.", "warning");
+            return;
+        }
+        if (!studentEmail.endsWith('@student.saxion.nl')) {
+            showToast("Invalid Email", "Please use your official Saxion student email (@student.saxion.nl).", "warning");
+            return;
+        }
+    } else if (role === 'staff') {
+        if (!studentEmail.endsWith('@saxion.nl')) {
+            showToast("Invalid Email", "Please use your official Saxion staff email (@saxion.nl).", "warning");
+            return;
+        }
+    } else if (role === 'guest') {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(studentEmail)) {
+            showToast("Invalid Email", "Please enter a valid email address.", "warning");
+            return;
+        }
+    }
     
     const newAppt = {
         id: 'appt-' + Date.now(),
         type: type,
         typeName: apptNames[type],
         name: name,
-        studentNumber: studentNum,
+        studentNumber: studentNum || 'N/A',
         studentEmail: studentEmail,
         notes: notes,
         date: formatDateFriendly(state.selectedApptDate),
@@ -598,14 +647,15 @@ function submitAppointmentForm(event) {
     renderMyPortal();
 
     // Construct Mailto Email to labid.hbs@saxion.nl
-    const subject = `VR Lab Appointment - ${newAppt.typeName} - ${studentNum}`;
+    const subject = `VR Lab Appointment - ${newAppt.typeName} - ${role.toUpperCase()}`;
     const emailBody = `Dear VR Lab Team,
 
 I would like to book a VR Lab session. Here are my details:
 
+Role: ${role.toUpperCase()}
 Name: ${name}
-Student Number: ${studentNum}
-Student Email: ${studentEmail}
+Student/Staff ID: ${studentNum || 'N/A'}
+Email: ${studentEmail}
 
 Appointment Type: ${newAppt.typeName}
 Date: ${newAppt.date}
@@ -622,6 +672,7 @@ ${name}`;
     
     // Clear and reset wizard
     document.getElementById('appointment-form').reset();
+    updateApptRoleUI(); // Reset visual labels to Student default
     
     // Reset wizard view state
     state.selectedApptDate = null;
@@ -638,13 +689,13 @@ ${name}`;
     // Disable form fields
     const formStep = document.getElementById('wizard-form-step');
     formStep.classList.add('disabled-step');
-    const inputs = formStep.querySelectorAll('input, textarea, button');
+    const inputs = formStep.querySelectorAll('input, select, textarea, button');
     inputs.forEach(input => input.disabled = true);
     
     // Show success toast
     showToast(
-        "Appointment Booked!", 
-        `Your reservation is saved. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
+        "Appointment Saved!", 
+        `Your reservation is logged. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
         "success"
     );
 
@@ -865,4 +916,70 @@ function getWorkingDaysDiff(startDate, endDate) {
         current.setDate(current.getDate() + 1);
     }
     return days - 1; // Return interval diff
+}
+
+// --- DYNAMIC ROLE SELECTORS & LABELS ---
+function initRoleSelectors() {
+    const borrowerRole = document.getElementById('borrower-role');
+    const apptRole = document.getElementById('appt-role');
+
+    if (borrowerRole) {
+        borrowerRole.addEventListener('change', updateLendingRoleUI);
+    }
+    if (apptRole) {
+        apptRole.addEventListener('change', updateApptRoleUI);
+    }
+}
+
+function updateLendingRoleUI() {
+    const role = document.getElementById('borrower-role').value;
+    const idLabel = document.getElementById('lending-id-label');
+    const idInput = document.getElementById('student-number');
+    const emailLabel = document.getElementById('lending-email-label');
+    const emailInput = document.getElementById('student-email');
+
+    if (role === 'student') {
+        idLabel.textContent = "Student Number";
+        idInput.placeholder = "e.g. 518423";
+        idInput.required = true;
+        emailLabel.textContent = "Saxion Student Email";
+        emailInput.placeholder = "e.g. 518423@student.saxion.nl";
+    } else if (role === 'staff') {
+        idLabel.textContent = "Staff ID (Optional)";
+        idInput.placeholder = "e.g. j.bakker";
+        idInput.required = false;
+        emailLabel.textContent = "Saxion Staff Email";
+        emailInput.placeholder = "e.g. j.bakker@saxion.nl";
+    }
+}
+
+function updateApptRoleUI() {
+    const role = document.getElementById('appt-role').value;
+    const idGroup = document.getElementById('appt-id-group');
+    const idLabel = document.getElementById('appt-id-label');
+    const idInput = document.getElementById('appt-student-number');
+    const emailLabel = document.getElementById('appt-email-label');
+    const emailInput = document.getElementById('appt-email');
+
+    if (role === 'student') {
+        idGroup.style.display = 'flex';
+        idLabel.textContent = "Student Number";
+        idInput.placeholder = "e.g. 518423";
+        idInput.required = true;
+        emailLabel.textContent = "Saxion Student Email";
+        emailInput.placeholder = "e.g. 518423@student.saxion.nl";
+    } else if (role === 'staff') {
+        idGroup.style.display = 'flex';
+        idLabel.textContent = "Staff ID (Optional)";
+        idInput.placeholder = "e.g. j.bakker";
+        idInput.required = false;
+        emailLabel.textContent = "Saxion Staff Email";
+        emailInput.placeholder = "e.g. j.bakker@saxion.nl";
+    } else if (role === 'guest') {
+        idGroup.style.display = 'none';
+        idInput.required = false;
+        idInput.value = '';
+        emailLabel.textContent = "Email Address";
+        emailInput.placeholder = "e.g. robin@example.com";
+    }
 }

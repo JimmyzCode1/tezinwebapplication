@@ -227,18 +227,26 @@
                         <input type="hidden" id="selected-headset-id" name="headset_id" value="">
                         
                         <div class="form-group">
+                            <label for="borrower-role">I am a</label>
+                            <select id="borrower-role" required disabled>
+                                <option value="student">Student</option>
+                                <option value="staff">Staff Member / Teacher</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="borrower-name">Full Name</label>
                             <input type="text" id="borrower-name" required placeholder="e.g. Robin de Jong" disabled>
                         </div>
 
-                        <div class="form-group">
-                            <label for="student-number">Student Number</label>
-                            <input type="text" id="student-number" pattern="[0-9]{6,7}" title="Please enter a valid 6 or 7-digit Saxion student number" required placeholder="e.g. 518423" disabled>
+                        <div class="form-group" id="lending-id-group">
+                            <label for="student-number" id="lending-id-label">Student Number</label>
+                            <input type="text" id="student-number" placeholder="e.g. 518423" required disabled>
                         </div>
 
-                        <div class="form-group">
-                            <label for="student-email">Saxion Student Email</label>
-                            <input type="email" id="student-email" pattern=".*@student\.saxion\.nl" title="Please enter your Saxion student email address ending with @student.saxion.nl" required placeholder="e.g. 518423@student.saxion.nl" disabled>
+                        <div class="form-group" id="lending-email-group">
+                            <label for="student-email" id="lending-email-label">Saxion Student Email</label>
+                            <input type="email" id="student-email" placeholder="e.g. 518423@student.saxion.nl" required disabled>
                         </div>
 
                         <div class="form-row">
@@ -351,18 +359,27 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="appt-role">I am a</label>
+                                <select id="appt-role" required disabled>
+                                    <option value="student">Student</option>
+                                    <option value="staff">Staff Member / Teacher</option>
+                                    <option value="guest">Guest / Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="appt-name">Full Name</label>
                                 <input type="text" id="appt-name" required placeholder="e.g. Robin de Jong" disabled>
                             </div>
 
-                            <div class="form-group">
-                                <label for="appt-student-number">Student Number</label>
-                                <input type="text" id="appt-student-number" pattern="[0-9]{6,7}" title="Please enter a valid 6 or 7-digit Saxion student number" placeholder="e.g. 518423" required disabled>
+                            <div class="form-group" id="appt-id-group">
+                                <label for="appt-student-number" id="appt-id-label">Student Number</label>
+                                <input type="text" id="appt-student-number" placeholder="e.g. 518423" required disabled>
                             </div>
 
-                            <div class="form-group">
-                                <label for="appt-email">Saxion Student Email</label>
-                                <input type="email" id="appt-email" pattern=".*@student\.saxion\.nl" title="Please enter your Saxion student email address ending with @student.saxion.nl" placeholder="e.g. 518423@student.saxion.nl" required disabled>
+                            <div class="form-group" id="appt-email-group">
+                                <label for="appt-email" id="appt-email-label">Saxion Student Email</label>
+                                <input type="email" id="appt-email" placeholder="e.g. 518423@student.saxion.nl" required disabled>
                             </div>
 
                             <div class="form-group">
