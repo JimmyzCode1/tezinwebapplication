@@ -1,99 +1,454 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VR-Bril Lenen | Saxion Bibliotheek</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
-        h1, h2 { color: #009639; }
-        .btn { display: inline-block; background: #009639; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 15px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .alert { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; margin: 20px 0; }
-    </style>
+    <title>Saxion Deventer | VR & Interior Design Portal</title>
+    <meta name="description" content="Official VR headset lending and appointment booking portal for Saxion University Deventer Interior Design students.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>🥽 VR-Bril Lenen via de Saxion Bibliotheek</h1>
-    <p>Welkom op het centrale portaal voor het lenen van Virtual Reality headsets binnen Saxion. Of je nu een immersive design student bent die een shader wil testen, of een docent die een klas wil meenemen in een virtuele wereld: hier vind je alle informatie.</p>
-    
-    <hr>
+    <!-- Main Navigation Bar -->
+    <nav class="navbar" id="main-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="nav-logo-link">
+                <span class="logo-box">S</span>
+                <span class="logo-text">Saxion <span class="logo-subtext">Deventer</span></span>
+            </a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link active" data-target="dashboard-view" id="nav-dashboard">
+                        <i class="fa-solid fa-house"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#lending" class="nav-link" data-target="lending-view" id="nav-lending">
+                        <i class="fa-solid fa-vr-cardboard"></i> Lend VR Headset
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#booking" class="nav-link" data-target="booking-view" id="nav-booking">
+                        <i class="fa-regular fa-calendar-check"></i> Book Appointment
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#my-bookings" class="nav-link" data-target="my-bookings-view" id="nav-my-bookings">
+                        <i class="fa-solid fa-clock-rotate-left"></i> My Portal 
+                        <span class="badge" id="bookings-count-badge" style="display: none;">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-    <h2>🚀 Direct Reserveren</h2>
-    <p>De VR-brillen zijn gekoppeld aan het standaard bibliotheeksysteem. Klik op de knop hieronder om de beschikbaarheid te controleren en direct een exemplaar te reserveren via <strong>AFAS / het Biebsysteem</strong>.</p>
-    <a href="#" class="btn">🔗 Reserveer een VR-Bril via AFAS Insite</a>
-
-    <h2>🛠️ Welke headsets zijn er?</h2>
-    <table>
-        <tr>
-            <th>Headset</th>
-            <th>Type</th>
-            <th>Ideaal voor</th>
-            <th>Hardware details</th>
-        </tr>
-        <tr>
-            <td><strong>Meta Quest 3</strong></td>
-            <td>Standalone / Link</td>
-            <td>Standalone apps, AR/MR experimenten</td>
-            <td>Geen PC nodig, inside-out tracking</td>
-        </tr>
-        <tr>
-            <td><strong>HTC Vive Pro 2</strong></td>
-            <td>PCVR</td>
-            <td>High-end graphics, Unity & Unreal Engine</td>
-            <td>Base stations vereist, krachtige pc nodig</td>
-        </tr>
-    </table>
-
-    <h2>📋 Hoe werkt het? (Stappenplan)</h2>
-    <ol>
-        <li><strong>Online Reserveren:</strong> Log in op het biebsysteem/AFAS en reserveer de gewenste headset voor jouw tijdslot.</li>
-        <li><strong>Ophalen bij de Balie:</strong> Ga met je Saxion-pas naar de servicebalie van de bibliotheek om de VR-koffer op te halen.</li>
-        <li><strong>Check de Inhoud:</strong> Controleer bij ontvangst altijd of de bril, de controllers en de oplaadkabels compleet zijn.</li>
-        <li><strong>Inleveren:</strong> Zorg dat de headset is opgeladen en schoon (gebruik de hygiene-wipes in de koffer) wanneer je hem weer inlevert bij de balie.</li>
-    </ol>
-
-    <div class="alert">
-        <strong>⚠️ Belangrijk:</strong> De standaard leentermijn is <strong>3 werkdagen</strong>. Heb je de headset langer nodig voor een lopend onderzoek of afstudeerproject? Neem dan vooraf contact op met je opleidingscoördinator voor een verlenging.
-    </div>
-
-    <h2>❓ Veelgestelde Vragen (FAQ)</h2>
-    <h3>Kan ik de VR-bril ook thuis gebruiken?</h3>
-    <p>Ja, de standalone headsets (zoals de Quest) mogen mee naar huis genomen worden voor projecten. Je bent zelf verantwoordelijk voor het veilig transporteren in de meegeleverde koffer.</p>
-
-    <h3>Wat moet ik doen als er een controller kapot gaat?</h3>
-    <p>Meld dit direct bij het inleveren bij de bibliotheekbalie. Zo kunnen we de hardware direct uit het systeem halen voor reparatie en grijpt de volgende student niet mis.</p>
-<hr>
-
-    <h2>📅 Advies of Hulp Nodig? Maak een Afspraak!</h2>
-    <p>Loop je vast met de opzet van je VR-project, of heb je specifieke vragen over 3D-scannen, Twinmotion, Vectorworks of andere applicaties voor interior design? Plan een kortere 1-op-1 sessie in met een van de lab-specialisten.</p>
-    
-    <div style="background: #f4f4f4; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 5px solid #009639;">
-        <h3>Waarmee kunnen we je helpen?</h3>
-        <ul>
-            <li><strong>VR & Immersive Tech:</strong> Hulp bij het live testen van je Unity shader of Unreal project op de Quest 3.</li>
-            <li><strong>Interior Ontwerp Software:</strong> Vragen over de workflow tussen Vectorworks, Twinmotion en het exporteren van 3D-modellen.</li>
-            <li><strong>3D Scanning & Printing:</strong> Ondersteuning bij het verwerken van scans (RealityScan) of het voorbereiden van prints voor de Bambu Lab printers.</li>
-        </ul>
-        <p><em>Kies in de planner hieronder je onderwerp, selecteer een datum en tijdstip, en je ontvangt direct een Teams-uitnodiging of bevestiging voor een ontmoeting in het lab.</em></p>
+    <!-- Main Container -->
+    <main class="main-content">
         
-        <a href="#" class="btn" style="background: #0078d4;">📅 Plan een adviesgesprek in</a>
-    </div>
-    <h2>📞 Support & Contact</h2>
-    <p>Loop je vast met de software, het koppelen aan Unity, of heb je een specifieke technische vraag over de headsets? Loop gerust even binnen bij het lab of stuur een bericht via Teams.</p>
-<h2>📦 Wat zit er in de VR-Koffer?</h2>
-    <p>Controleer bij de bieb-balie altijd of de koffer compleet is. Je bent zelf verantwoordelijk voor het compleet inleveren van de volgende onderdelen:</p>
-    <ul>
-        <li><strong>VR Headset</strong> (Meta Quest 3 / HTC Vive Pro 2)</li>
-        <li><strong>2x Controllers</strong> (Links en Rechts, inclusief batterijen)</li>
-        <li><strong>Oplaadset:</strong> Originele USB-C kabel + adapter</li>
-        <li><strong>Hygiënekit:</strong> Microvezeldoekje en lenzen-veilig reinigingsdoekje</li>
-    </ul>
+        <!-- DASHBOARD VIEW -->
+        <section id="dashboard-view" class="view-section active-view">
+            <!-- Hero Section -->
+            <div class="hero-banner">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-tag"><i class="fa-solid fa-circle-nodes"></i> Interior Design & VR Lab</span>
+                    <h1 class="hero-title">Elevate Your Design in Virtual Reality</h1>
+                    <p class="hero-description">Welcome to the Saxion Deventer VR & Interior Design Portal. Walk through your 3D models, test lighting in Twinmotion, and experience spatial proportions first-hand. In partnership with the Saxion Library, we provide headsets and workspace support for your design projects.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="switchView('lending-view')"><i class="fa-solid fa-vr-cardboard"></i> Rent Quest Headset</button>
+                        <button class="btn btn-secondary" onclick="switchView('booking-view')"><i class="fa-regular fa-calendar"></i> Book Lab Appointment</button>
+                    </div>
+                </div>
+            </div>
 
-    <div class="alert" style="background: #e2f0d9; border-left: 5px solid #009639;">
-        <strong>💡 Ontwikkelaars Tip (Unity):</strong> Wil je je eigen projecten builden naar de Quest? Zorg dat je in Unity de <strong>OpenXR Plugin</strong> hebt geïnstalleerd en dat het build-platform op <strong>Android</strong> staat ingesteld voor standalone gebruik.
-    </div>
+            <!-- Stats and Fast-links Grid -->
+            <div class="dashboard-grid">
+                <div class="dashboard-card status-card">
+                    <h3><i class="fa-solid fa-chart-simple"></i> Hardware Availability</h3>
+                    <p class="card-subtitle">Real-time stock at Deventer Library Desk</p>
+                    <div class="stock-container">
+                        <div class="stock-item">
+                            <span class="stock-label">Meta Quest 3</span>
+                            <div class="stock-bar-outer">
+                                <div class="stock-bar-inner q3-color" id="q3-stock-bar" style="width: 80%;"></div>
+                            </div>
+                            <span class="stock-number" id="q3-stock-text">4 / 5 available</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-label">Meta Quest 2</span>
+                            <div class="stock-bar-outer">
+                                <div class="stock-bar-inner q2-color" id="q2-stock-bar" style="width: 75%;"></div>
+                            </div>
+                            <span class="stock-number" id="q2-stock-text">3 / 4 available</span>
+                        </div>
+                    </div>
+                    <div class="card-footer-info">
+                        <i class="fa-solid fa-info-circle"></i> Pickup point: Service Desk, Deventer Library (2nd Floor).
+                    </div>
+                </div>
+
+                <div class="dashboard-card guide-card">
+                    <h3><i class="fa-solid fa-book-open"></i> How VR Lending Works</h3>
+                    <p class="card-subtitle">Follow these steps to secure your hardware:</p>
+                    <ul class="step-list">
+                        <li>
+                            <span class="step-num">1</span>
+                            <div class="step-content">
+                                <strong>Reserve Online</strong>
+                                <p>Select your headset model and booking dates through this portal.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">2</span>
+                            <div class="step-content">
+                                <strong>Collect at Library</strong>
+                                <p>Head to the Deventer Library Desk. Bring your Saxion Student Card to scan the borrow transaction.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">3</span>
+                            <div class="step-content">
+                                <strong>Max 3-Day Return</strong>
+                                <p>Headsets must be returned or extended within 3 working days to ensure all students get access.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="dashboard-card lab-card">
+                    <h3><i class="fa-solid fa-microchip"></i> Deventer Design Lab Support</h3>
+                    <p class="card-subtitle">Need help with VR software integration?</p>
+                    <div class="lab-tags">
+                        <span class="lab-tag"><i class="fa-solid fa-cube"></i> Twinmotion</span>
+                        <span class="lab-tag"><i class="fa-solid fa-vector-square"></i> Vectorworks</span>
+                        <span class="lab-tag"><i class="fa-solid fa-draw-polygon"></i> 3D Scan</span>
+                        <span class="lab-tag"><i class="fa-brands fa-unity"></i> Unity</span>
+                    </div>
+                    <p class="lab-promo-text">Get hands-on help setting up your VR export, linking controllers, or configuring interactive shaders. Book a session with our design tech coaches.</p>
+                    <button class="btn btn-text" onclick="switchView('booking-view')">Schedule a consultation <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Library Policies Notice -->
+            <div class="alert-banner">
+                <div class="alert-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="alert-text">
+                    <strong>Important Library Terms:</strong> By lending a VR headset, you assume liability for the hardware package. All packages include: headset, 2 controllers, charger, and protective travel case. Return components clean and fully charged.
+                </div>
+            </div>
+        </section>
+
+        <!-- LENDING VIEW -->
+        <section id="lending-view" class="view-section">
+            <div class="section-header">
+                <h2>Lend a VR Headset</h2>
+                <p>Reserve a VR headset and collect it at the Saxion Deventer Library Service Desk.</p>
+            </div>
+
+            <div class="lending-container">
+                <!-- Headset Selector Catalog -->
+                <div class="catalog-grid" id="headset-catalog">
+                    <!-- Quest 3 Card -->
+                    <div class="catalog-card" id="card-q3" onclick="selectHeadset('q3')">
+                        <div class="headset-image-placeholder q3-gradient">
+                            <!-- SVG Representation of VR Headset -->
+                            <svg viewBox="0 0 100 60" class="headset-svg">
+                                <rect x="20" y="15" width="60" height="30" rx="10" fill="#ffffff" opacity="0.9"/>
+                                <rect x="30" y="25" width="40" height="10" rx="5" fill="#111827"/>
+                                <circle cx="37" cy="30" r="2" fill="#009639"/>
+                                <circle cx="50" cy="30" r="2" fill="#009639"/>
+                                <circle cx="63" cy="30" r="2" fill="#009639"/>
+                                <path d="M 20 28 Q 10 28 10 35 Q 10 40 15 40" stroke="#fff" fill="none" stroke-width="2"/>
+                                <path d="M 80 28 Q 90 28 90 35 Q 90 40 85 40" stroke="#fff" fill="none" stroke-width="2"/>
+                            </svg>
+                            <span class="headset-badge premium-badge">Quest 3</span>
+                        </div>
+                        <div class="catalog-details">
+                            <div class="catalog-title-row">
+                                <h3>Meta Quest 3</h3>
+                                <span class="stock-pill" id="catalog-q3-stock">4 available</span>
+                            </div>
+                            <p class="catalog-desc">Next-gen Mixed Reality (MR) headset. High-resolution color passthrough, slimmer design, and fast performance. Perfect for spatial rendering reviews and interior modeling overlays.</p>
+                            <div class="catalog-specs">
+                                <span><i class="fa-solid fa-display"></i> 4K+ Infinite Display</span>
+                                <span><i class="fa-solid fa-eye"></i> Full Color MR</span>
+                                <span><i class="fa-solid fa-bolt"></i> Standalone & Link</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quest 2 Card -->
+                    <div class="catalog-card" id="card-q2" onclick="selectHeadset('q2')">
+                        <div class="headset-image-placeholder q2-gradient">
+                            <!-- SVG Representation of VR Headset -->
+                            <svg viewBox="0 0 100 60" class="headset-svg">
+                                <rect x="22" y="18" width="56" height="26" rx="8" fill="#e5e7eb" opacity="0.9"/>
+                                <rect x="32" y="26" width="36" height="8" rx="4" fill="#374151"/>
+                                <circle cx="36" cy="30" r="1.5" fill="#9ca3af"/>
+                                <circle cx="64" cy="30" r="1.5" fill="#9ca3af"/>
+                                <path d="M 22 28 Q 12 28 12 34" stroke="#e5e7eb" fill="none" stroke-width="2"/>
+                                <path d="M 78 28 Q 88 28 88 34" stroke="#e5e7eb" fill="none" stroke-width="2"/>
+                            </svg>
+                            <span class="headset-badge standard-badge">Quest 2</span>
+                        </div>
+                        <div class="catalog-details">
+                            <div class="catalog-title-row">
+                                <h3>Meta Quest 2</h3>
+                                <span class="stock-pill" id="catalog-q2-stock">3 available</span>
+                            </div>
+                            <p class="catalog-desc">Reliable, lightweight standalone VR headset. Great for showing 360-degree panorama designs, standard spatial walkthroughs, and lightweight standalone VR software setups.</p>
+                            <div class="catalog-specs">
+                                <span><i class="fa-solid fa-display"></i> High-Res Display</span>
+                                <span><i class="fa-solid fa-eye-slash"></i> Standard Passthrough</span>
+                                <span><i class="fa-solid fa-weight-hanging"></i> Lightweight</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Details Side Panel -->
+                <div class="lending-panel glass-panel" id="lending-booking-panel">
+                    <h3><i class="fa-solid fa-clipboard-check"></i> Reserve Hardware</h3>
+                    <p class="panel-subtitle">Select a headset first to configure rental details</p>
+                    
+                    <form id="lending-form" class="lending-form disabled-form" onsubmit="submitLendingForm(event)">
+                        <input type="hidden" id="selected-headset-id" name="headset_id" value="">
+                        
+                        <div class="form-group">
+                            <label for="borrower-name">Full Name</label>
+                            <input type="text" id="borrower-name" required placeholder="e.g. Robin de Jong" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-number">Student Number</label>
+                            <input type="text" id="student-number" pattern="[0-9]{6,7}" title="Please enter a valid 6 or 7-digit Saxion student number" required placeholder="e.g. 518423" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-email">Saxion Student Email</label>
+                            <input type="email" id="student-email" pattern=".*@student\.saxion\.nl" title="Please enter your Saxion student email address ending with @student.saxion.nl" required placeholder="e.g. 518423@student.saxion.nl" disabled>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="start-date">Pickup Date</label>
+                                <input type="date" id="start-date" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="end-date">Return Date</label>
+                                <input type="date" id="end-date" required disabled>
+                                <span class="date-hint"><i class="fa-solid fa-circle-info"></i> Max 3 working days</span>
+                            </div>
+                        </div>
+
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="agree-terms" required disabled>
+                            <label for="agree-terms">I agree to return the hardware complete, clean, and within the 3-day leentermijn to the Deventer library desk.</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" id="lending-submit-btn" disabled>
+                            <i class="fa-solid fa-calendar-plus"></i> Confirm Reservation
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOOKING VIEW -->
+        <section id="booking-view" class="view-section">
+            <div class="section-header">
+                <h2>Book a Lab Appointment</h2>
+                <p>Reserve a time slot with an interior tech specialist or book a VR lab studio space at Saxion Deventer.</p>
+            </div>
+
+            <div class="booking-container">
+                <!-- Appointment Type Selector -->
+                <div class="booking-options">
+                    <div class="booking-option-card active" data-type="consultation" onclick="selectBookingType('consultation')">
+                        <div class="option-icon"><i class="fa-solid fa-user-tie"></i></div>
+                        <div class="option-info">
+                            <h4>VR Technical Support</h4>
+                            <p>Get help connecting your project to headsets, compiling Unity/Unreal builds, or configuring link features.</p>
+                            <span class="option-meta"><i class="fa-regular fa-clock"></i> 45 mins &bull; 1-on-1 coaching</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-option-card" data-type="review" onclick="selectBookingType('review')">
+                        <div class="option-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+                        <div class="option-info">
+                            <h4>Interior Design VR Review</h4>
+                            <p>Walk through your Twinmotion, Vectorworks, or Revit layouts with a tutor to analyze scale, materials, and spatial flow.</p>
+                            <span class="option-meta"><i class="fa-regular fa-clock"></i> 60 mins &bull; Crit session</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-option-card" data-type="space" onclick="selectBookingType('space')">
+                        <div class="option-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                        <div class="option-info">
+                            <h4>VR Lab Studio Space</h4>
+                            <p>Book a dedicated workspace at the Deventer Campus equipped with high-end workstation PCs, preinstalled software, and tracking rigs.</p>
+                            <span class="option-meta"><i class="fa-regular fa-clock"></i> 120 mins &bull; Individual work</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar and Form Wizard -->
+                <div class="booking-wizard glass-panel">
+                    <div class="wizard-step" id="wizard-calendar-step">
+                        <h3>1. Select Date & Time</h3>
+                        
+                        <div class="calendar-wrapper">
+                            <div class="calendar-header">
+                                <button type="button" id="prev-month-btn" class="cal-nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                                <h4 id="calendar-month-year">July 2026</h4>
+                                <button type="button" id="next-month-btn" class="cal-nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            
+                            <div class="calendar-days-header">
+                                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                            </div>
+                            
+                            <div class="calendar-grid" id="calendar-grid-days">
+                                <!-- Days injected by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="time-slots-container">
+                            <h4>Available Slots for <span id="selected-date-label">Select a date</span></h4>
+                            <div class="time-slots-grid" id="time-slots-grid">
+                                <p class="no-date-hint">Please select a date on the calendar first.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wizard-step disabled-step" id="wizard-form-step">
+                        <h3>2. Confirm Details</h3>
+                        
+                        <form id="appointment-form" onsubmit="submitAppointmentForm(event)">
+                            <input type="hidden" id="selected-appt-type" value="consultation">
+                            <input type="hidden" id="selected-appt-date" value="">
+                            <input type="hidden" id="selected-appt-time" value="">
+
+                            <div class="appt-preview-banner" id="appt-preview-banner">
+                                <i class="fa-regular fa-calendar-check"></i>
+                                <div>
+                                    <strong id="preview-type-title">VR Technical Support</strong>
+                                    <p id="preview-date-time">Select date & time on left to preview</p>
+                                    <span class="preview-location"><i class="fa-solid fa-location-dot"></i> Deventer Campus, Library VR Lab (Room D2.18)</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="appt-name">Full Name</label>
+                                <input type="text" id="appt-name" required placeholder="e.g. Robin de Jong" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="appt-student-number">Student Number</label>
+                                <input type="text" id="appt-student-number" pattern="[0-9]{6,7}" title="Please enter a valid 6 or 7-digit Saxion student number" placeholder="e.g. 518423" required disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="appt-email">Saxion Student Email</label>
+                                <input type="email" id="appt-email" pattern=".*@student\.saxion\.nl" title="Please enter your Saxion student email address ending with @student.saxion.nl" placeholder="e.g. 518423@student.saxion.nl" required disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="appt-notes">Project Details / Specific Questions</label>
+                                <textarea id="appt-notes" rows="3" placeholder="e.g. I need help exporting my Twinmotion scene to Quest 3 standalone..." disabled></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block" id="appt-submit-btn" disabled>
+                                <i class="fa-regular fa-envelope"></i> Book Appointment
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MY PORTAL / RESERVATIONS VIEW -->
+        <section id="my-bookings-view" class="view-section">
+            <div class="section-header">
+                <h2>My Student Portal</h2>
+                <p>Track your active hardware loans and laboratory appointments at Saxion Deventer.</p>
+            </div>
+
+            <div class="portal-grid">
+                <!-- Headset Loans Section -->
+                <div class="portal-card glass-panel">
+                    <h3><i class="fa-solid fa-vr-cardboard"></i> Active Headset Loans</h3>
+                    <p class="panel-subtitle">Items borrowed from Deventer Library Desk</p>
+                    
+                    <div class="bookings-list" id="loans-list">
+                        <!-- Loans rendered by JavaScript -->
+                        <div class="empty-state">
+                            <i class="fa-solid fa-box-open"></i>
+                            <p>No active headset reservations.</p>
+                            <button class="btn btn-sm btn-outline" onclick="switchView('lending-view')">Lend a headset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments Section -->
+                <div class="portal-card glass-panel">
+                    <h3><i class="fa-regular fa-calendar-check"></i> Lab Consultations & Spaces</h3>
+                    <p class="panel-subtitle">Scheduled appointments at Campus Deventer</p>
+                    
+                    <div class="bookings-list" id="appointments-list">
+                        <!-- Appointments rendered by JavaScript -->
+                        <div class="empty-state">
+                            <i class="fa-regular fa-calendar-minus"></i>
+                            <p>No upcoming appointments scheduled.</p>
+                            <button class="btn btn-sm btn-outline" onclick="switchView('booking-view')">Book a session</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Library Contact Info -->
+            <div class="contact-support-card glass-panel">
+                <div class="support-info">
+                    <h4><i class="fa-solid fa-headset"></i> Support & Contact</h4>
+                    <p>Have questions about your rental, late fines, or need to extend your lease? Contact the Deventer library team or visit the desk.</p>
+                </div>
+                <div class="support-actions">
+                    <a href="mailto:library.deventer@saxion.nl" class="btn btn-outline"><i class="fa-regular fa-envelope"></i> Email Library</a>
+                    <a href="https://teams.microsoft.com" target="_blank" class="btn btn-outline"><i class="fa-brands fa-microsoft"></i> Chat on Teams</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification System -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Saxion University of Applied Sciences (Deventer Campus). Created for Interior Design students.</p>
+            <p class="footer-links">
+                <a href="#dashboard" onclick="switchView('dashboard-view')">Home</a> &bull;
+                <a href="https://www.saxion.edu/services/library" target="_blank">Saxion Library Catalog</a> &bull;
+                <a href="#lending" onclick="switchView('lending-view')">Hardware Rules</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- App Script -->
+    <script src="app.js"></script>
 </body>
 </html>
