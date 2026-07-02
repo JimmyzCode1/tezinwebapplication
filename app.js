@@ -54,6 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set up role selectors for forms
     initRoleSelectors();
+
+    // Initialize dynamic QR codes for mobile sharing
+    initQRCodes();
 });
 
 // --- LOCAL STORAGE STATE MANAGEMENT ---
@@ -362,52 +365,66 @@ function submitLendingForm(event) {
     saveState();
     renderMyPortal();
 
-    // Construct Mailto Email to labid.hbs@saxion.nl
-    const subject = `VR Headset Reservation - ${loanRecord.headsetName} - ${role.toUpperCase()}`;
-    const emailBody = `Dear VR Lab Team,
+    // Show loading state on button
+    const submitBtn = document.getElementById('lending-submit-btn');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
 
-I would like to reserve a VR headset. Here are my details:
+    // Construct form payload for FormSubmit background submission
+    const payload = {
+        "Reservatie Type": "VR Headset Leenverzoek",
+        "Naam": name,
+        "Rol": role.toUpperCase(),
+        "Student/Medewerker ID": studentNum || 'N/A',
+        "Email": studentEmail,
+        "Headset Model": loanRecord.headsetName,
+        "Software Profiel": loanRecord.softwareProfile,
+        "Ophaaldatum": loanRecord.startDate,
+        "Inleverdatum": loanRecord.endDate,
+        "_subject": `VR Headset Leenverzoek - ${loanRecord.headsetName} - ${role.toUpperCase()}`,
+        "_replyto": studentEmail
+    };
 
-Role: ${role === 'student' ? 'Student' : 'Staff Member'}
-Name: ${name}
-Student/Staff ID: ${studentNum || 'N/A'}
-Email: ${studentEmail}
+    fetch('https://formsubmit.co/ajax/labid.hbs@saxion.nl', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Restore button state
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
 
-Requested Headset: ${loanRecord.headsetName}
-Software/Usage Profile: ${loanRecord.softwareProfile}
-Pickup Date: ${loanRecord.startDate}
-Return Date: ${loanRecord.endDate}
-
-I have read and agree to return the hardware complete, clean, and on the same day (by 17:00).
-
-Kind regards,
-${name}`;
-
-    const mailtoUrl = `mailto:labid.hbs@saxion.nl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Reset selections and forms
-    document.getElementById(`card-${id}`).classList.remove('selected');
-    state.selectedHeadset = null;
-    document.getElementById('lending-form').reset();
-    updateLendingRoleUI(); // Reset visual labels to Student default
-    document.getElementById('lending-form').classList.add('disabled-form');
-    document.getElementById('lending-booking-panel').querySelector('.panel-subtitle').textContent = "Select a headset first to configure rental details";
-    const inputs = document.getElementById('lending-form').querySelectorAll('input, select, button');
-    inputs.forEach(input => input.disabled = true);
-    
-    setupLendingDateInputs(); // Reset date boundaries
-    
-    // Display Success Toast
-    showToast(
-        "Reservation Saved!", 
-        `Your Quest reservation has been logged. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
-        "success"
-    );
-
-    // Open email client after a brief delay so they see the toast
-    setTimeout(() => {
-        window.location.href = mailtoUrl;
-    }, 1200);
+        // Reset selections and forms
+        document.getElementById(`card-${id}`).classList.remove('selected');
+        state.selectedHeadset = null;
+        document.getElementById('lending-form').reset();
+        updateLendingRoleUI(); // Reset visual labels to Student default
+        document.getElementById('lending-form').classList.add('disabled-form');
+        document.getElementById('lending-booking-panel').querySelector('.panel-subtitle').textContent = "Select a headset first to configure rental details";
+        const inputs = document.getElementById('lending-form').querySelectorAll('input, select, button');
+        inputs.forEach(input => input.disabled = true);
+        
+        setupLendingDateInputs(); // Reset date boundaries
+        
+        // Display Success Toast
+        showToast(
+            "Reservation Sent!", 
+            `Your Quest reservation request has been submitted directly to labid.hbs@saxion.nl. Ready for collection on ${loanRecord.startDate}!`, 
+            "success"
+        );
+    })
+    .catch(error => {
+        console.error('Error submitting lending form:', error);
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+        showToast("Submission Error", "Could not send booking request. Please check your network and try again.", "warning");
+    });
 }
 
 // --- APPOINTMENT BOOKING PROCESS & CALENDAR GENERATOR ---
@@ -669,63 +686,77 @@ function submitAppointmentForm(event) {
     saveState();
     renderMyPortal();
 
-    // Construct Mailto Email to labid.hbs@saxion.nl
-    const subject = `VR Lab Appointment - ${newAppt.typeName} - ${role.toUpperCase()}`;
-    const emailBody = `Dear VR Lab Team,
+    // Show loading state on button
+    const submitBtn = document.getElementById('appt-submit-btn');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Booking...`;
 
-I would like to book a VR Lab session. Here are my details:
+    // Construct form payload for FormSubmit background submission
+    const payload = {
+        "Reservatie Type": "VR Lab Afspraakboeking",
+        "Afspraak Type": newAppt.typeName,
+        "Naam": name,
+        "Rol": role.toUpperCase(),
+        "Student/Medewerker ID": studentNum || 'N/A',
+        "Email": studentEmail,
+        "Datum": newAppt.date,
+        "Tijdstip": newAppt.time,
+        "Locatie": newAppt.location,
+        "Opmerkingen": notes || 'Geen',
+        "_subject": `VR Lab Afspraak - ${newAppt.typeName} - ${role.toUpperCase()}`,
+        "_replyto": studentEmail
+    };
 
-Role: ${role.toUpperCase()}
-Name: ${name}
-Student/Staff ID: ${studentNum || 'N/A'}
-Email: ${studentEmail}
+    fetch('https://formsubmit.co/ajax/labid.hbs@saxion.nl', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Restore button state
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
 
-Appointment Type: ${newAppt.typeName}
-Date: ${newAppt.date}
-Time Slot: ${newAppt.time}
-Location: ${newAppt.location}
-
-Additional Notes/Questions:
-${notes || 'None'}
-
-Kind regards,
-${name}`;
-
-    const mailtoUrl = `mailto:labid.hbs@saxion.nl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Clear and reset wizard
-    document.getElementById('appointment-form').reset();
-    updateApptRoleUI(); // Reset visual labels to Student default
-    
-    // Reset wizard view state
-    state.selectedApptDate = null;
-    state.selectedApptTime = null;
-    document.getElementById('selected-appt-date').value = '';
-    document.getElementById('selected-appt-time').value = '';
-    document.getElementById('selected-date-label').textContent = 'Select a date';
-    document.getElementById('preview-date-time').textContent = 'Select date & time on left to preview';
-    
-    // Reset calendar render
-    renderCalendar();
-    document.getElementById('time-slots-grid').innerHTML = '<p class="no-date-hint">Please select a date on the calendar first.</p>';
-    
-    // Disable form fields
-    const formStep = document.getElementById('wizard-form-step');
-    formStep.classList.add('disabled-step');
-    const inputs = formStep.querySelectorAll('input, select, textarea, button');
-    inputs.forEach(input => input.disabled = true);
-    
-    // Show success toast
-    showToast(
-        "Appointment Saved!", 
-        `Your reservation is logged. A draft email to labid.hbs@saxion.nl has been opened to submit your request.`, 
-        "success"
-    );
-
-    // Open email client after a brief delay
-    setTimeout(() => {
-        window.location.href = mailtoUrl;
-    }, 1200);
+        // Clear and reset wizard
+        document.getElementById('appointment-form').reset();
+        updateApptRoleUI(); // Reset visual labels to Student default
+        
+        // Reset wizard view state
+        state.selectedApptDate = null;
+        state.selectedApptTime = null;
+        document.getElementById('selected-appt-date').value = '';
+        document.getElementById('selected-appt-time').value = '';
+        document.getElementById('selected-date-label').textContent = 'Select a date';
+        document.getElementById('preview-date-time').textContent = 'Select date & time on left to preview';
+        
+        // Reset calendar render
+        renderCalendar();
+        document.getElementById('time-slots-grid').innerHTML = '<p class="no-date-hint">Please select a date on the calendar first.</p>';
+        
+        // Disable form fields
+        const formStep = document.getElementById('wizard-form-step');
+        formStep.classList.add('disabled-step');
+        const inputs = formStep.querySelectorAll('input, select, textarea, button');
+        inputs.forEach(input => input.disabled = true);
+        
+        // Show success toast
+        showToast(
+            "Appointment Booked!", 
+            `Your VR Lab appointment has been successfully scheduled and sent to labid.hbs@saxion.nl!`, 
+            "success"
+        );
+    })
+    .catch(error => {
+        console.error('Error submitting appointment form:', error);
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+        showToast("Booking Error", "Could not send booking request. Please check your connection and try again.", "warning");
+    });
 }
 
 // --- PORTAL DATA MANAGER & LOCAL STORAGE RENDERER ---
@@ -1005,5 +1036,24 @@ function updateApptRoleUI() {
         idInput.value = '';
         emailLabel.textContent = "Email Address";
         emailInput.placeholder = "e.g. robin@example.com";
+    }
+}
+
+// --- DYNAMIC QR CODE ACCESS ---
+function initQRCodes() {
+    const qrLendingImg = document.getElementById('qr-lending');
+    const qrBookingImg = document.getElementById('qr-booking');
+    
+    if (qrLendingImg && qrBookingImg) {
+        // Construct the base URL dynamically based on current page location
+        const baseUrl = window.location.origin + window.location.pathname;
+        
+        // Append section hashes
+        const lendingUrl = `${baseUrl}#lending`;
+        const bookingUrl = `${baseUrl}#booking`;
+        
+        // Generate QR Codes via free open API
+        qrLendingImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(lendingUrl)}&margin=10`;
+        qrBookingImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(bookingUrl)}&margin=10`;
     }
 }
